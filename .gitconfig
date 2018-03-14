@@ -1,1 +1,7 @@
-../.gitconfig
+[user]
+	name = pwoch
+	email = wochnowskip@gmail.com
+[credential]
+	helper = osxkeychain
+[init]
+	templatedir = ~/.git_template
