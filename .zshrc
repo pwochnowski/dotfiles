@@ -1,6 +1,6 @@
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/paulwochnowski/.oh-my-zsh
+export ZSH=/Users/paulw/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -27,7 +27,7 @@ ZSH_THEME="af-magic"
 # Add wisely, as too many plugins slow down shell startup.
 
 
-source ~/antigen.zsh
+source /usr/local/share/antigen/antigen.zsh
 
 #Load the oh-my-zsh's library.
 antigen use oh-my-zsh
@@ -74,4 +74,4 @@ alias python=python3
 alias pip=pip3
 alias cse="ssh -x -Y z5079392@cse.unsw.edu.au"
 #alias password=diceware-password
-source /Users/paulwochnowski/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
