@@ -9,3 +9,5 @@ set iskeyword+=:
 
 
 call IMAP('MC', '\mathcal{<++>}<++>', 'tex')
+call IMAP('DF', '\( <++> \) <++>', 'tex')
+call IMAP('FD', '\[ <++> \] <++>', 'tex')

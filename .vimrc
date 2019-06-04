@@ -5,11 +5,10 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+Plugin 'dart-lang/dart-vim-plugin'
+
 " alternatively, pass a path where Vundle should install plugins
 " call vundle#begin('~/some/path/here')
-
-"Error Checking 
-Plugin 'vim-syntastic/syntastic'
 
 "let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
@@ -53,17 +52,11 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:ag_working_path_mode="r"
 let g:ag_prg="ag --vimgrep"
 
+"Dart settings
+let dart_html_in_string=v:true
+let dart_style_guide = 2
+let dart_format_on_save = 1
 
-" Syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_enable_signs = 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 3
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 " CTRLP settings
 let g:ctrlp_map = '<c-p>'
@@ -126,10 +119,6 @@ nnoremap <leader>h :noh<CR>
 nnoremap <leader>r :!tmux send-keys -t right C-p C-j <CR><CR>
 
 
-"Something I will never remember to use
-iabbrev /_ /********************************************
-iabbrev _/ ********************************************/
-
 
 "Use EasyAlign with ga
 xmap ga <Plug>(EasyAlign)
@@ -138,7 +127,6 @@ nmap ga <Plug>(EasyAlign)
 "Define folding (za) by syntax of current file
 setlocal foldmethod=syntax
 setlocal nofoldenable
-
 set noswapfile "who needs a swapfile when you don't make mistakes
 
 "Buffer options
@@ -161,6 +149,7 @@ set wildignorecase
 
 " Undo persists upon closing file
 set undofile
+set undodir=~/.undo/,/tmp//
 
 "Show typed command in status bar
 set showcmd
@@ -195,9 +184,12 @@ set cmdheight=2
 "indentation settings
 "inserts spaces instead of 'real' tab characters
 set expandtab
-"change the number of space characters inserted for indentation
+"size of an indent
 set shiftwidth=2
-set softtabstop=2
+"width of tab character
+set tabstop=2
+
+set tags=tags,./tags
 
 map Y y$
 "nnoremap <Space> :nohl<CR><C-L>
@@ -205,7 +197,6 @@ map Y y$
 set t_Co=16
 "let g:solarized_termcolors=256
 "set background=dark
-colorscheme ingretu 
 
 
 "Configure buffers to use, instead of tabs

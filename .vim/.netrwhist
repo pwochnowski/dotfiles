@@ -1,11 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
-let g:netrw_dirhist_1='/Users/paulwochnowski/2041/ass2/app'
-let g:netrw_dirhist_2='/Users/paulwochnowski/COMP1521'
-let g:netrw_dirhist_3='/Users/paulwochnowski/2041/test/COMP2041-17s2-TutorialCode/wk13/T11'
-let g:netrw_dirhist_4='/Users/paulwochnowski/progchals/USACO/sec2.1'
-let g:netrw_dirhist_5='/Users/paulwochnowski/2521/graphQuestions'
-let g:netrw_dirhist_6='/Users/paulwochnowski/room-view'
-let g:netrw_dirhist_7='/Users/paulwochnowski/Google Drive/UNSW 18s1/COMP3821'
-let g:netrw_dirhist_8='/Users/paulwochnowski/progchals/AIOC/2010'
-let g:netrw_dirhist_9='/private/tmp/os161-gcc-20180313-10291-5zyie7/gcc-4.8.3+os161-2.1/build/isl'
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/Users/paulw/Downloads/Frame3DD/examples'
+let g:netrw_dirhist_2='/Users/paulw/jcms/powerlines'
