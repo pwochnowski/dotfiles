@@ -5,15 +5,8 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'dart-lang/dart-vim-plugin'
-
-" alternatively, pass a path where Vundle should install plugins
-" call vundle#begin('~/some/path/here')
-
 "let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'vim-latex/vim-latex'
 
 Plugin 'ctrlpvim/ctrlp.vim'
 
@@ -38,7 +31,7 @@ Bundle 'takac/vim-hardtime'
 
 Plugin 'junegunn/vim-easy-align'
 
-Plugin 'felixhummel/setcolors.vim'
+"Plugin 'felixhummel/setcolors.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()         " required
@@ -51,11 +44,6 @@ syntax on                 " Enable syntax highlighting
 let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:ag_working_path_mode="r"
 let g:ag_prg="ag --vimgrep"
-
-"Dart settings
-let dart_html_in_string=v:true
-let dart_style_guide = 2
-let dart_format_on_save = 1
 
 
 " CTRLP settings
@@ -83,26 +71,11 @@ nmap <leader>, :TagbarToggle<CR>
 let g:hardtime_default_on = 0
 
 
-
-"Vim-LaTex Settings
-let g:tex_flavor='latex'
-let g:Tex_TreatMacViewerAsUNIX = 1
-let g:Tex_ExecuteUNIXViewerInForeground = 1
-let g:Tex_ViewRule_ps = 'open -a Preview'
-let g:Tex_ViewRule_pdf = 'open -a Skim'
-let g:Tex_ViewRule_dvi = 'open -a  Skim'
-let g:Tex_Env_question = "\\begin{question}{<++>}\<CR>\\end{question}<++>"
-
-
-
 set guioptions-=f "Keep gvim connected to the terminal process
 
 let mapleader=" "  "Change leader key
 
 "Keymappings
-
-"Remap since F5 is impossible to reach
-imap <C-e> <F5>
 
 " remove trailing whitespace
 nnoremap <silent> <leader>d :%s/\s\+$//e<CR>:noh<CR>
@@ -117,7 +90,6 @@ nnoremap <leader>h :noh<CR>
 "Send keys in tmux
 "go to the right tmux pane and repeat last command
 nnoremap <leader>r :!tmux send-keys -t right C-p C-j <CR><CR>
-
 
 
 "Use EasyAlign with ga
