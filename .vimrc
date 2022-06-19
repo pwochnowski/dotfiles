@@ -8,28 +8,31 @@ call vundle#begin()
 "let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'junegunn/fzf'
 
-Plugin 'FelikZ/ctrlp-py-matcher'
+Plugin 'Valloric/YouCompleteMe'
 
-Plugin 'majutsushi/tagbar'
+Plugin 'grailbio/bazel-compilation-database'
 
 "vimgrep improvement
 Plugin 'rking/ag.vim'
 
-"Enable FocusGained, FocusLost commands inside Tmux
-Plugin 'tmux-plugins/vim-tmux-focus-events'
+Plugin 'ap/vim-buftabline'
 
-"Give me decent higlighting for tmux.conf
-Plugin 'tmux-plugins/vim-tmux'
+Plugin 'tpope/vim-fugitive'
 
 "Use gc to auto comment lines"
 Plugin 'tpope/vim-commentary'
 
+Plugin 'godlygeek/tabular'
+
+Plugin 'plasticboy/vim-markdown'
+
+Plugin 'asvetliakov/vim-easymotion'
+
 "Timeout for hjkl keys
 Bundle 'takac/vim-hardtime'
 
-Plugin 'junegunn/vim-easy-align'
 
 "Plugin 'felixhummel/setcolors.vim'
 
@@ -39,101 +42,31 @@ call vundle#end()         " required
 filetype plugin indent on " Attempt to determine the type of a file based on its name
 syntax on                 " Enable syntax highlighting
 
+set nocp
+" configure tags - add additional tags here or comment out not-used ones
+" Setting the directory...
+set tags=~/.vim/tags 
+" Adding the tag files 
+set tags+=~/.vim/tags/cpp
 
-"Ag options
-let g:ackprg = 'ag --nogroup --nocolor --column'
-let g:ag_working_path_mode="r"
-let g:ag_prg="ag --vimgrep"
+nnoremap <silent> <C-p> :<C-u>FZF<CR>
 
-
-" CTRLP settings
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-" r - nearest ancestor (parent with .git folder)
-" a - current directory when the file isn't a direct ancestor of the current
-" file
-let g:ctrlp_working_path_mode = 'ra'
-
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
-	\ 'file': '\v\.(exe|so|dll)$',
-	\ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
-	\ }
-
-" CTRLP matching function (supposedly better)
-let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-
-" Tagbar settings
-nmap <leader>, :TagbarToggle<CR>
-
-"Get gud with vim
-let g:hardtime_default_on = 0
-
-
-set guioptions-=f "Keep gvim connected to the terminal process
-
-let mapleader=" "  "Change leader key
-
-"Keymappings
-
-" remove trailing whitespace
-nnoremap <silent> <leader>d :%s/\s\+$//e<CR>:noh<CR>
-
-" global substitution on last used search pattern
-nnoremap <leader>s :%s///g<Left><Left>
-xnoremap <leader>s :s///g<Left><Left>
-
-"Clear highlighting
-nnoremap <leader>h :noh<CR>
-
-"Send keys in tmux
-"go to the right tmux pane and repeat last command
-nnoremap <leader>r :!tmux send-keys -t right C-p C-j <CR><CR>
-
-
-"Use EasyAlign with ga
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-
-"Define folding (za) by syntax of current file
-setlocal foldmethod=syntax
-setlocal nofoldenable
-set noswapfile "who needs a swapfile when you don't make mistakes
-
-"Buffer options
-set hidden "Cause the current buffer to hide changes when another buffer is opened
-set confirm "Check before quitting if unwritten buffer
 set autowriteall
 
-" Better command-line completition
+"Define folding (za) by syntax of current file
+" setlocal foldmethod=syntax
+setlocal foldmethod=indent
+set foldnestmax=2
+setlocal nofoldenable
+
+set swapfile
+set dir=~/.vimbackup
+
 set wildmenu
 set wildignore=*.o,*.obj,*.bak,*.exe,*.py[co],*.sw*,*~,*.pyc,.svn
 
-"2 lines above/below cursor when scrolling
+" position cursor 2 lines from end of screen when scrolling
 set scrolloff=2
-
-"Display line on cursor position
-"set cursorline
-
-" Ignore case for commandline filename completions
-set wildignorecase
-
-" Undo persists upon closing file
-set undofile
-set undodir=~/.undo/,/tmp//
-
-"Show typed command in status bar
-set showcmd
-
-"Show cursor position in status bar
-set ruler
-
-"show current mode in status bar
-set showmode
-
-" Highlight searches
-set hlsearch
 
 " Use case insensitive search, except when using capital letters
 set ignorecase
@@ -147,65 +80,119 @@ set relativenumber
 "Break word if text goes over the end of the line
 set lbr
 
+set expandtab
+set shiftwidth=2
+set tabstop=2
+
+set undofile
+set undodir=~/.vimbackup/,/tmp//
+
+"Show cursor position in status bar
+set ruler
+
+"Show typed command in status bar
+set showcmd
+
+"show current mode in status bar
+set showmode
+
 "set the command window height to 2 lines
 set cmdheight=2
 
-"Enable use of mouse (we dont want this habit though)
-"set mouse=a
+" Turn off annoying beeps
+set noerrorbells
+set vb t_vb=
 
-"indentation settings
-"inserts spaces instead of 'real' tab characters
-set expandtab
-"size of an indent
-set shiftwidth=2
-"width of tab character
-set tabstop=2
+set mouse=a
 
-set tags=tags,./tags
+let mapleader=' '
+
+" YouCompleteMe
+let g:ycm_global_ycm_extra_conf = '/home/paulw/polez/tools/ycm_extra_conf.py'
+" let g:ycm_clangd_binary_path="/usr/bin/clangd"
+
+let g:ycm_key_list_select_completion = ['<Enter>']
+let g:ycm_key_list_select_previous_completion = ['<C-Enter>']
+
+" Don't trigger completion menu unless requested
+" let g:ycm_auto_trigger=0
+let g:ycm_min_num_of_chars_for_completion=5
+
+
+" invoke the completion menu for semantic completion
+let g:ycm_key_invoke_completion = '<C-Space>'
+
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+
+" Define the characters that trigger semantic completion when typed. 
+let g:ycm_semantic_triggers =  {
+  \   'c': ['->', '.'],
+  \   'objc': ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
+  \            're!\[.*\]\s'],
+  \   'ocaml': ['.', '#'],
+  \   'cpp,cuda,objcpp': ['->', '.', '::'],
+  \   'perl': ['->'],
+  \   'php': ['->', '::'],
+  \   'cs,d,elixir,go,groovy,java,javascript,julia,perl6,python,scala,typescript,vb': ['.'],
+  \   'ruby,rust': ['.', '::'],
+  \   'lua': ['.', ':'],
+  \   'erlang': [':'],
+  \ }
+
+
+"Ag options
+let g:ackprg = 'ag --nogroup --nocolor --column'
+let g:ag_working_path_mode="r"
+let g:ag_prg="ag --vimgrep"
+
+
+"Get gud with vim
+let g:hardtime_default_on = 0
+
+
+"Keymappings
+
+nnoremap <C-Tab> :bprev<CR>
+nnoremap <Tab> :bnext<CR>
 
 map Y y$
-"nnoremap <Space> :nohl<CR><C-L>
-
-set t_Co=16
-"let g:solarized_termcolors=256
-"set background=dark
-
-
-"Configure buffers to use, instead of tabs
-nmap ; :buffers<CR>
-
-
-"Use control+t <direction> to switch between open tab
-map <C-t><up> :tabr<cr>
-map <C-t><down> :tabl<cr>
-map <C-t><left> :tabp<cr>
-map <C-t><right> :tabn<cr>
-
-"disable arrow keys to break bad habits
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
 
 nmap <Leader><Leader> :
 
 " fix up moving line by line in the paragraph
-nnoremap j gj
-nnoremap k gk
-vnoremap j gj
-vnoremap k gk
+nmap j gj
+
+nmap k gk
 " map gj/gk to do what j/k do by default
 nnoremap gj j
 nnoremap gk k
-vnoremap gj j
-vnoremap gk k
+
 
 " wrapped line movement mappings (adds larger jumps to jumplist)
 nnoremap <expr> j v:count > 4 ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 nnoremap <expr> k v:count > 4 ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 
-if has("gui_vim")
-endif
+" remove trailing whitespace
+nnoremap <silent> <leader>d :%s/\s\+$//e<CR>:noh<CR>
+
+" global substitution on last used search pattern
+nnoremap <leader>s :%s///g<Left><Left>k
+
+" Tagbar settings
+" nmap <leader>, :TagbarToggle<CR>
+
+"Clear highlighting
+nnoremap <leader>h :noh<CR>
+
+nnoremap <C-b> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" unmap <C-i>
+noremap <leader>i :YcmCompleter GoToReferences<CR>
+
+
+
 
 " Autocommands
 
@@ -220,43 +207,17 @@ endif
 " use !au at the beginning of the group to clear other autocommands
 " (avoids commands being run multiple times)
 
-augroup syntastic_color
-  au!
-  autocmd BufRead,BufNewFile * :highlight SignColumn ctermbg=8 guibg=#000000
-  autocmd BufRead,BufNewFile * :highlight SyntasticErrorSign ctermbg=8 guibg=#000000
-  autocmd BufRead,BufNewFile * :highlight SyntasticError ctermfg=16 ctermbg=14 
-  autocmd BufRead,BufNewFile * :highlight qfError ctermbg=8 guibg=#000000
-
-  "Apparently this is more appropriate autocommand to watch for?
-  "autocmd ColorScheme * highlight SignColumn ctermbg=red
-augroup END
-
-
-augroup filetype_mips
-  autocmd!
-  autocmd BufRead,BufNewFile *.s :set syntax=mips
-augroup END
-
-augroup compile_time
-  au!
-  autocmd FileType cpp nnoremap <silent> <leader>m :!g++ %<cr>
-  autocmd FileType c nnoremap <leader>m :!gcc -std=c11 %<cr>
-  autocmd FileType cpp nnoremap <silent> <leader>g :!g++ -g %<cr>
-  autocmd FileType c nnoremap  <leader>g :!gcc -std=c11 -g %<cr>
-  autocmd FileType c nnoremap <leader>a :!gcc -std=c11 -Wall -Werror %<cr>
-augroup END
+" Prevent folds from opening while editing
+autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod  | setlocal foldmethod=manual | endif
+autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
 
 augroup unfold_all
   autocmd!
   autocmd BufNewFile,BufRead * :normal zR
 augroup END
 
-" Prevent folds from opening while editing
-autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod  | setlocal foldmethod=manual | endif
-autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
-
-"autosave on lose focus
-autocmd BufLeave,FocusLost * silent! :wall
+" checktime will check for changes on disk and prompt you to reload.
+au WinLeave,FocusLost * :wa
 
 "Toggle displaying relative number
 augroup numbertoggle
@@ -265,35 +226,7 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter   * :set norelativenumber
 augroup END
 
-augroup myvimrchax
+augroup vimrc
   au!
   autocmd BufWrite .vimrc source ~/.vimrc
 augroup END
-
-augroup latex
-  au!
-  autocmd BufNewFile,BufRead *.tex let tex_no_curly_error=1
-augroup END
-
-augroup md_update
-  au!
-  autocmd InsertLeave *.md silent! :w
-  autocmd InsertLeave *.html silent! :w
-augroup END
-
-function! s:CloseBracket()
-  let line = getline('.')
-  if line =~# '^\s*\(struct\|class\|enum\) '
-    return "{\<Enter>};\<Esc>O"
-  elseif searchpair('(', '', ')', 'bmn', '', line('.'))
-    " Probably inside a function call. Close it off.
-    return "{\<Enter>});\<Esc>O"
-  else
-    return "{\<Enter>}\<Esc>O"
-  endif
-endfunction
-
-inoremap <expr> {<Enter>  <SID>CloseBracket()
-
-
-
