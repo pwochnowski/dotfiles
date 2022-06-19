@@ -1,0 +1,42 @@
+Config {
+	font = "xft:liberation mono-8"
+	, bgColor= "#3b3228"
+	, fgColor= "#d0c8c6"
+	, position = Top
+  , pickBroadest = False
+	, border = NoBorder
+	, borderColor = "#3b3228"
+	, lowerOnStart = True
+  , allDesktops = True,
+  , persistent = True
+	, commands = [
+         -- Run Weather "KPAO" ["-t","<tempF>F <skyCondition>","-L","64","-H","77","-n","#CEFFAC","-h",      "#FFB6B0","-l","#96CBFE"] 36000,
+         Run Brightness ["-t", ""] 60,
+         Run Com "/home/paulw/bin/gotify-check.py" ["count"] "gotify-check" 100,
+         Run BatteryP ["BAT0","BAT1"] ["-t","<acstatus> <left>"
+         ,"-L","10"
+         ,"-H","70"
+         ,"-l","#bb9584"
+         ,"--"
+         ,"-P"
+         ,"-a","notify-send 'battery low'"
+         ,"-i","<icon=/home/paulw/.xmobar/xbm/ac1.xbm/>"
+         ,"-O","<icon=/home/paulw/.xmobar/xbm/ac1.xbm/>"
+         ,"-o",""
+         ,"-L","10"
+         ,"-H","70"
+         ,"--lows","<icon=/home/paulw/.xmobar/xbm/batt1empty.xbm/> LOW BAT"
+         ,"--mediums","<icon=/home/paulw/.xmobar/xbm/batt1half.xbm/>"
+         ,"--highs","<icon=/home/paulw/.xmobar/xbm/batt1full.xbm/>"
+         ] 100,
+         Run Network "enp0s31f6" ["-t","<icon=/home/paulw/.xmobar/xbm/net_wired.xbm/> <dev>"] 100,
+         Run Wireless "wlp0s20f3" ["-t","<icon=/home/paulw/.xmobar/xbm/wireless8.xbm/> <essid> <quality>%","-x","n/a"] 100,
+         -- Run MultiCpu ["-t","<icon=/home/paulw/.xmobar/xbm/cpu.xbm/> <total>%","-L","3","-H","80","--high","#bb9584"] 100,
+         Run Memory ["--high","#bb9584","-t","<icon=/home/paulw/.xmobar/xbm/mem1.xbm/> <usedratio>%"] 100,
+         Run Date "<icon=/home/paulw/.xmobar/xbm/clock2.xbm/> %H:%M" "date" 300,
+         Run StdinReader
+	]
+	, sepChar = "%"
+	, alignSep = "}{"
+	, template = "%StdinReader% }{ %wlp0s20f3wi% %memory% %battery% "
+}

@@ -1,0 +1,241 @@
+export EDITOR="/usr/bin/vim"
+
+HISTFILE=~/.histfile
+HISTSIZE=1000000
+SAVEHIST=1000000
+
+# Prevent insert key from changing input mode.
+# (switch to Emacs mode)
+bindkey -e
+
+setopt HIST_VERIFY
+#setopt SHARE_HISTORY
+
+# Ignore duplicate in history.
+setopt hist_ignore_dups
+
+setopt EXTENDED_HISTORY 
+
+setopt HIST_IGNORE_DUPS
+setopt HIST_REDUCE_BLANKS
+
+setopt NO_HIST_BEEP
+
+setopt NO_BEEP
+
+
+if [[ -r ~/.aliasrc ]]; then 
+	source ~/.aliasrc
+fi
+
+path+=('/home/paulw/.screenlayout' '/home/paulw/.local/bin')
+export PATH
+
+# Not all servers have terminfo for rxvt-256color. :<
+if [ "${TERM}" = 'rxvt-256color' ] && ! [ -f '/usr/share/terminfo/r/rxvt-256color' ] && ! [ -f '/lib/terminfo/r/rxvt-256color' ] && ! [ -f "${HOME}/.terminfo/r/rxvt-256color" ]; then
+    export TERM='rxvt-unicode'
+fi
+
+alias -g latest='*(om[1])'
+
+fpath=(~/.my_zsh_functions "${fpath[@]}")
+autoload -Uz compinit colors
+colors
+# autocompletion
+compinit
+
+
+export TMP="$HOME/tmp"
+export TEMP="$TMP"
+export TMPDIR="$TMP"
+
+
+# Fancy cd that can cd into parent directory, if trying to cd into file.
+# useful with ^F fuzzy searcher.
+cd() {
+    if (( $+2 )); then
+        builtin cd "$@"
+        return 0
+    fi
+
+    if [ -f "$1" ]; then
+        echo "${yellow}cd ${1:h}${NC}" >&2
+        builtin cd "${1:h}"
+    else
+        builtin cd "${@}"
+    fi
+}
+
+# Control-x-e to open current line in $EDITOR, awesome when writting functions or editing multiline commands.
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+
+confirm() {
+    local answer
+    echo -ne "zsh: sure you want to run '${YELLOW}$*${NC}' [yN]? "
+    read -q answer
+        echo
+    if [[ "${answer}" =~ ^[Yy]$ ]]; then
+        command "${@}"
+    else
+        return 1
+    fi
+}
+
+confirm_wrapper() {
+    if [ "$1" = '--root' ]; then
+        local as_root='true'
+        shift
+    fi
+
+    local prefix=''
+
+    if [ "${as_root}" = 'true' ] && [ "${USER}" != 'root' ]; then
+        prefix="sudo"
+    fi
+    confirm ${prefix} "$@"
+}
+
+poweroff() { confirm_wrapper --root $0 "$@"; }
+reboot() { confirm_wrapper --root $0 "$@"; }
+hibernate() { confirm_wrapper --root $0 "$@"; }
+
+startx() {
+    exec =startx
+}
+
+
+
+# Completion.
+autoload -Uz compinit
+compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' completer _expand _complete _ignored _approximate
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
+
+# Ignore lines prefixed with '#'.
+setopt interactivecomments
+
+
+# Nobody need flow control anymore. Troublesome feature.
+#stty -ixon
+setopt noflowcontrol
+
+# Ensure that / is added after tab complation to directories.
+# without disabling it, $LBUFFER does not have the slash at the end
+# and it's required for _append_path_to_buffer thing..
+#setopt AUTO_PARAM_SLASH
+#unsetopt AUTO_REMOVE_SLASH
+_select_path_with_fzy() {
+    (
+        if [ "$1" != '.' ]; then
+            if ! [ -d $~1 ]; then
+                echo -e "${yellow}The $1 is not a directory.${NC}"  >&2
+                return
+            fi
+            cd $~1
+        fi
+
+        find -L . \( -type d -printf "%p/\n" , -type f -print \) 2>/dev/null | cut -c 3- | sort | fzy
+    )
+}
+
+_append_path_to_buffer() {
+    local selected_path
+
+    if ! command -v fzy >/dev/null 2>&1; then
+        echo 'No fzy binary found in $PATH.'
+        return 1
+    fi
+    echo
+    print -nr "${zle_bracketed_paste[2]}" >/dev/tty
+    {
+        if [ "${LBUFFER[-1]}" = '/' ]; then
+            search_in="${LBUFFER##*[$'\t' ]}"
+        else
+            search_in='.'
+        fi
+
+        selected_path="$(_select_path_with_fzy "${search_in}")"
+    } always {
+        print -nr "${zle_bracketed_paste[1]}" >/dev/tty
+    }
+    if [ "${selected_path}" ]; then
+        if [[ "${LBUFFER[-1]}" =~ [[:alnum:]] ]]; then
+            # if last character is a word character, insert space.
+            # before inserting selected path. Useful when one's lazy 
+            # and use 'vim^F', yet works okay with 'cmd foo=^F'.
+            LBUFFER+=" "
+        fi
+        LBUFFER+="${(q)selected_path}"
+    fi
+    zle reset-prompt
+}
+zle -N _append_path_to_buffer
+bindkey "^F" _append_path_to_buffer
+
+_history_search_with_fzy() {
+    local selected_history_entry
+
+    if ! command -v fzy >/dev/null 2>&1; then
+        echo 'No fzy binary found in $PATH.'
+        return 1
+    fi
+
+    if ! command -v awk >/dev/null 2>&1; then
+        echo 'No awk binary found in $PATH.'
+        return 1
+    fi
+    echo
+
+    print -nr "${zle_bracketed_paste[2]}" >/dev/tty
+    {
+        # The awk is used to filter out duplicates, keeping the most 
+        # recent entries, while not re-ordering the history list.
+        selected_history_entry="$(fc -nrl 1 | awk '!v[$0]++' | fzy)"
+    } always {
+        print -nr "${zle_bracketed_paste[1]}" >/dev/tty
+    }
+    if [ "${selected_history_entry}" ]; then
+        BUFFER="${selected_history_entry}"
+        CURSOR="${#BUFFER}"
+    fi
+    zle reset-prompt
+}
+zle -N _history_search_with_fzy
+bindkey "^T" _history_search_with_fzy
+
+
+# Replaced with _history_search_with_fzy
+bindkey "^R" history-incremental-pattern-search-backward 
+bindkey "^S" history-incremental-pattern-search-forward
+
+if [ -f ~/.alert ]; then echo '>>> Check ~/.alert'; fi
+
+PLUGIN_DIR="/home/paulw/setup/zsh/plugins"
+
+source $PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source $PLUGIN_DIR/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey "^[[B" history-substring-search-down
+bindkey "^[[A" history-substring-search-up
+
+source $PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $PLUGIN_DIR/git/git.plugin.zsh
+source $PLUGIN_DIR/git-extras/git-extras.plugin.zsh
+source $PLUGIN_DIR/command-not-found/command-not-found.plugin.zsh
+source $PLUGIN_DIR/zsh-you-should-use/you-should-use.plugin.zsh
+source $PLUGIN_DIR/liquidprompt/liquidprompt.plugin.zsh
+source $PLUGIN_DIR/z/z.sh
+
+source $PLUGIN_DIR/common-aliases/common-aliases.plugin.zsh
+source /home/paulw/.aliasrc
+
+# make webstorm work
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# source ~/.workrc
