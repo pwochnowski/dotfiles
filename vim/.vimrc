@@ -8,9 +8,9 @@ call vundle#begin()
 "let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'junegunn/fzf'
+" Plugin 'junegunn/fzf'
 
-" Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 
 Plugin 'grailbio/bazel-compilation-database'
 
@@ -42,6 +42,15 @@ call vundle#end()         " required
 filetype plugin indent on " Attempt to determine the type of a file based on its name
 syntax on                 " Enable syntax highlighting
 
+
+let g:ycm_language_server = [
+  \   {
+  \    'name': 'dart',
+  \    'cmdline': [ 'dart', '/usr/local/lib/dart-1.24/bin/snapshots/analysis_server.dart.snapshot', '--lsp' ],
+  \    'filetypes': [ 'dart' ],
+  \   }
+  \ ] 
+
 set nocp
 " configure tags - add additional tags here or comment out not-used ones
 " Setting the directory...
@@ -49,7 +58,21 @@ set tags=~/.vim/tags
 " Adding the tag files 
 set tags+=~/.vim/tags/cpp
 
-nnoremap <silent> <C-p> :<C-u>FZF<CR>
+function! FzyCommand(choice_command, vim_command)
+  try
+    let output = system(a:choice_command . " | fzy ")
+  catch /Vim:Interrupt/
+    " Swallow errors from ^C, allow redraw! below
+  endtry
+  redraw!
+  if v:shell_error == 0 && !empty(output)
+    exec a:vim_command . ' ' . output
+  endif
+endfunction
+
+nnoremap <silent> <C-p> :call FzyCommand("ag . --silent -l -g ''", ":e")<cr>
+nnoremap <leader>v :call FzyCommand("ag . --silent -l -g ''", ":vs")<cr>
+nnoremap <leader>s :call FzyCommand("ag . --silent -l -g ''", ":sp")<cr>
 
 set autowriteall
 
@@ -106,48 +129,6 @@ set vb t_vb=
 set mouse=a
 
 let mapleader=' '
-
-if 0 
-" YouCompleteMe
-let g:ycm_global_ycm_extra_conf = '/home/paulw/polez/tools/ycm_extra_conf.py'
-" let g:ycm_clangd_binary_path="/usr/bin/clangd"
-
-let g:ycm_key_list_select_completion = ['<Enter>']
-let g:ycm_key_list_select_previous_completion = ['<C-Enter>']
-
-" Don't trigger completion menu unless requested
-" let g:ycm_auto_trigger=0
-let g:ycm_min_num_of_chars_for_completion=5
-
-
-" invoke the completion menu for semantic completion
-let g:ycm_key_invoke_completion = '<C-Space>'
-
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-
-
-" Define the characters that trigger semantic completion when typed. 
-let g:ycm_semantic_triggers =  {
-  \   'c': ['->', '.'],
-  \   'objc': ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
-  \            're!\[.*\]\s'],
-  \   'ocaml': ['.', '#'],
-  \   'cpp,cuda,objcpp': ['->', '.', '::'],
-  \   'perl': ['->'],
-  \   'php': ['->', '::'],
-  \   'cs,d,elixir,go,groovy,java,javascript,julia,perl6,python,scala,typescript,vb': ['.'],
-  \   'ruby,rust': ['.', '::'],
-  \   'lua': ['.', ':'],
-  \   'erlang': [':'],
-  \ }
-
-nnoremap <C-b> :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-" unmap <C-i>
-noremap <leader>i :YcmCompleter GoToReferences<CR>
-endif
-
 
 "Ag options
 let g:ackprg = 'ag --nogroup --nocolor --column'

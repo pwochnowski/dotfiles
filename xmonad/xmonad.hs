@@ -74,9 +74,9 @@ myManageHook = composeAll . concat $
   myRFloats = []
   myIgnores = []
   my1Shifts = []
-  my2Shifts = ["chromium-browser", "Chromium"]
+  my2Shifts = ["chromium-browser"]
   my3Shifts = ["code-oss", "jetbrains-webstorm", "clion", "idea"]
-  my4Shifts = ["Google-chrome"]
+  my4Shifts = ["Google-chrome", "Chromium"]
   my5Shifts = ["firefox"]
   my6Shifts = ["slack", "discord"]
   my7Shifts = []
@@ -195,14 +195,14 @@ myKeys = [
 
   , ("M-j", sendMessage Shrink)
   , ("M-k", sendMessage Expand)
+  , ("M-g", spawn "capture ")
 
   -- Quit Xmonad
   , ("M4-S-q", io (exitWith ExitSuccess))
 
 
   -- System Hotkeys
-  , ("<Print>",  spawn "sleep 0.2; zsh -c \"scrot -s $HOME/Pictures/screenshots/%Y-%m-%d-%H:%M:%S.png; xclip -t image/png -i $HOME/Pictures/screenshots/*(om[1])\"")
-  , ("S-<Print>",  spawn "zsh -c \"scrot $HOME/Pictures/screenshots/%Y-%m-%d-%H:%M:%S.png; xclip -t image/png -i $HOME/Pictures/screenshots/*(om[1])\"")
+  , ("<Print>",  spawn "sleep 0.2; zsh -c \"scrot -s $HOME/Pictures/screenshots/%Y-%m-%d-%H:%M:%S.png; echo $HOME/Pictures/screenshots/*(om[1]) >/tmp/foo; xclip -t image/png -selection clipboard -i $HOME/Pictures/screenshots/*(om[1])\"") , ("S-<Print>",  spawn "zsh -c \"scrot $HOME/Pictures/screenshots/%Y-%m-%d-%H:%M:%S.png; xclip -t image/png -i $HOME/Pictures/screenshots/*(om[1])\"")
   -- VolDown
   , ("<XF86AudioLowerVolume>", spawn myVolDown)
   -- VolUp
@@ -290,7 +290,7 @@ main = do
       , logHook           = myLogHook myBar
       , manageHook        = manageSpawn <+> manageDocks <+> myManageHook
       -- , startupHook         = myStartupHook
-      , handleEventHook   = docksEventHook
+      -- , handleEventHook   = docksEventHook
   } `additionalKeysP` myKeys
 
 

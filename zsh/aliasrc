@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Aliases
+alias md='mkdir -p'
 alias cp='cp -iv'
 alias rcp='rsync -v --progress'
 alias rmv='rsync -v --progress --remove-source-files'
@@ -18,8 +19,14 @@ else
     alias diff="diff -Nuar"
 fi
 
-alias grep='rg --colour=auto'
+alias grep='rg --color=auto'
 
 alias ls='ls --color=auto --human-readable --group-directories-first --classify'
 alias ll='ls --color=auto --human-readable --group-directories-first --classify -l'
 alias lla='ls --color=auto --human-readable --group-directories-first --classify -la'
+
+# Git
+alias grh='git reset'
+alias grhh='git reset --hard'
+alias gshs='git show --stat'
+alias grbo='git rebase --interactive origin/master'
