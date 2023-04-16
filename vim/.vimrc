@@ -111,7 +111,7 @@ set undofile
 set undodir=~/.vimbackup/,/tmp//
 
 "Show cursor position in status bar
-set ruler
+" set ruler
 
 "Show typed command in status bar
 set showcmd

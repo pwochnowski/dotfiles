@@ -74,6 +74,11 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["Comment.nvim"] = {
+    loaded = true,
+    path = "/home/paulw/.local/share/nvim/site/pack/packer/start/Comment.nvim",
+    url = "https://github.com/numToStr/Comment.nvim"
+  },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
     path = "/home/paulw/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
@@ -121,6 +126,11 @@ _G.packer_plugins = {
     path = "/home/paulw/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
+  ["possession.nvim"] = {
+    loaded = true,
+    path = "/home/paulw/.local/share/nvim/site/pack/packer/start/possession.nvim",
+    url = "https://github.com/jedrzejboczar/possession.nvim"
+  },
   ["rose-pine"] = {
     loaded = true,
     path = "/home/paulw/.local/share/nvim/site/pack/packer/start/rose-pine",
@@ -151,15 +161,15 @@ _G.packer_plugins = {
     path = "/home/paulw/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
   },
-  undotree = {
-    loaded = true,
-    path = "/home/paulw/.local/share/nvim/site/pack/packer/start/undotree",
-    url = "https://github.com/mbbill/undotree"
-  },
   ["vim-fugitive"] = {
     loaded = true,
     path = "/home/paulw/.local/share/nvim/site/pack/packer/start/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
+  },
+  ["vim-sleuth"] = {
+    loaded = true,
+    path = "/home/paulw/.local/share/nvim/site/pack/packer/start/vim-sleuth",
+    url = "https://github.com/tpope/vim-sleuth"
   }
 }
 
