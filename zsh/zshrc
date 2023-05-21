@@ -123,8 +123,10 @@ FPATH_DIR="$SETUP_DIR/func"
 fpath=($FPATH_DIR "${fpath[@]}")
 autoload -Uz compinit colors
 colors
+
 # autocompletion
 compinit
+
 
 # Completion.
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -160,3 +162,8 @@ export PERL5LIB=/home/paulw/perl5/lib/perl5/
 source /home/paulw/.aliasrc
 
 source ~/.workrc
+
+# add Pulumi to the PATH
+export PATH=$PATH:$HOME/.pulumi/bin
+
+source $FPATH_DIR/pulumi.comp

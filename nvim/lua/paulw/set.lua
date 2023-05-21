@@ -19,7 +19,7 @@ vim.opt.smartindent = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 
-vim.opt.wrap = false
+vim.opt.wrap = true
 -- Break at word if text goas over end of line
 vim.opt.lbr = true
 
@@ -41,4 +41,4 @@ vim.opt.isfname:append("@-@")
 vim.opt.colorcolumn = "100"
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
+vim.opt.completeopt = 'menuone,noselect'

@@ -39,10 +39,10 @@ return require('packer').startup(function(use)
   }
 
   -- vim session manager
-  use {
-    'jedrzejboczar/possession.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
-  }
+  --use {
+  --  'jedrzejboczar/possession.nvim',
+  --  requires = { 'nvim-lua/plenary.nvim' },
+  --}
 
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use {
@@ -69,6 +69,8 @@ return require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
 
+  use { 'nvim-tree/nvim-tree.lua'}
+
   --use({'nvim-treesitter/playground', {run = ':TsInstall query'}})
 
   -- better vim marks
@@ -80,6 +82,8 @@ return require('packer').startup(function(use)
     end
   }
 
+  use('ziontee113/neo-minimap')
+
   use('tpope/vim-fugitive')
 
   use('eandrju/cellular-automaton.nvim')
@@ -89,6 +93,8 @@ return require('packer').startup(function(use)
     requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   }
 
+  use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
 
+  use { 'gelguy/wilder.nvim' }
 
 end)
