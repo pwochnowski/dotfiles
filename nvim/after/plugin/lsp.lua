@@ -37,7 +37,8 @@ local on_attach = function(_, bufnr)
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-
+  
+  --vim.lsp.set_log_level("trace")
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
@@ -47,7 +48,9 @@ end
 
 
 local servers = {
-   clangd = {},
+   clangd = {
+    cmd = { "clangd", "--enable-config"},
+   },
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {},
@@ -64,6 +67,7 @@ local servers = {
     cmd = {"dart", "/usr/local/lib/dart-1.24/bin/snapshots/analysis_server.dart.snapshot", "--lsp", "--clientid", "vim", "--instrumentation-log-file=/tmp/dart.log"},
   },
 }
+
 
 -- Setup neovim lua lsp config
 require('neodev').setup()

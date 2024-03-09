@@ -5,7 +5,7 @@ local nm = require("neo-minimap")
 -- works only when you have only 1 neo-minimap config file
 nm.source_on_save("/home/paulw/setup/nvim/after/plugin/neo-minimap.lua") -- optional
 
-nm.set({"m1", "m2", "m3"}, { "*.lua"}, {
+nm.set({"m1", "m2", "m3"}, { "*.lua", "*.sh"}, {
    events = { "BufEnter" },
    --
    --    -- lua table, values inside can be type `string` or `number`
@@ -17,16 +17,15 @@ nm.set({"m1", "m2", "m3"}, { "*.lua"}, {
       -- first query
       [[
       ;; query
-      ((function_declaration) @cap)
-      ((assignment_statement(expression_list((function_definition) @cap))))
-      ]],
+      ((variable_assignment) @cap)
+      ]]
 
       -- second query
-      [[
-      ;; query
-      ((function_declaration) @cap)
-      ((assignment_statement(expression_list((function_definition) @cap))))
-      ]],
+      --[[
+      --;; query
+      --((function_definition) @cap)
+      --((assignment_statement(expression_list((function_definition) @cap))))
+      -- ]],
       --((for_statement) @cap)
    },
 

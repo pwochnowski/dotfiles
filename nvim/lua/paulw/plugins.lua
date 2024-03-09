@@ -57,21 +57,19 @@ return require('packer').startup(function(use)
     as = 'rose-pine'
   })
 
-  use {
-    'nvim-treesitter/nvim-treesitter', 
-    run = ':TSUpdate'
-  }
-
-  use { -- Additional text objects via treesitter
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    'nvim-treesitter/nvim-treesitter-context',
-    'nvim-treesitter/playground',
-    after = 'nvim-treesitter',
-  }
+  --use {
+  --  'nvim-treesitter/nvim-treesitter', 
+  --  run = ':TSUpdate'
+  --}
+  --
+  --use { -- Additional text objects via treesitter
+  --  'nvim-treesitter/nvim-treesitter-textobjects',
+  --  'nvim-treesitter/nvim-treesitter-context',
+  --  'nvim-treesitter/playground',
+  --  after = 'nvim-treesitter',
+  --}
 
   use { 'nvim-tree/nvim-tree.lua'}
-
-  --use({'nvim-treesitter/playground', {run = ':TsInstall query'}})
 
   -- better vim marks
   -- use('theprimeagen/harpoon')

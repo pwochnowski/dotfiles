@@ -1,6 +1,7 @@
 -- [[ Configure Telescope ]]
 -- https://github.com/nvim-telescope/telescope.nvim
 -- See `:help telescope` and `:help telescope.setup()`
+
 require('telescope').setup {
   defaults = {},
   extensions = {
