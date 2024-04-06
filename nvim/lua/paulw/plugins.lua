@@ -29,7 +29,8 @@ return require('packer').startup(function(use)
 
 
   use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.x',
+    'nvim-telescope/telescope.nvim',
+    --tag = '0.1.x',
     requires = {'nvim-lua/plenary.nvim'}
   }
 
@@ -57,10 +58,10 @@ return require('packer').startup(function(use)
     as = 'rose-pine'
   })
 
-  --use {
-  --  'nvim-treesitter/nvim-treesitter', 
-  --  run = ':TSUpdate'
-  --}
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate'
+  }
   --
   --use { -- Additional text objects via treesitter
   --  'nvim-treesitter/nvim-treesitter-textobjects',
@@ -68,10 +69,10 @@ return require('packer').startup(function(use)
   --  'nvim-treesitter/playground',
   --  after = 'nvim-treesitter',
   --}
-
+  --
   use { 'nvim-tree/nvim-tree.lua'}
-
-  -- better vim marks
+  --
+  ---- better vim marks
   -- use('theprimeagen/harpoon')
   use {
     'numToStr/Comment.nvim',
@@ -85,7 +86,7 @@ return require('packer').startup(function(use)
   use('tpope/vim-fugitive')
 
   use('eandrju/cellular-automaton.nvim')
-
+  --
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true }

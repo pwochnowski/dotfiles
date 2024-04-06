@@ -63,9 +63,9 @@ local servers = {
       telemetry = { enable = false },
     },
   },
-  dartls = {
-    cmd = {"dart", "/usr/local/lib/dart-1.24/bin/snapshots/analysis_server.dart.snapshot", "--lsp", "--clientid", "vim", "--instrumentation-log-file=/tmp/dart.log"},
-  },
+
+  --dartls = {
+  --}
 }
 
 
@@ -96,6 +96,7 @@ mason_lspconfig.setup_handlers {
 }
 
 require('lspconfig').dartls.setup{
+  capabilities = capabilities,
   cmd = {
     "/usr/local/lib/dart-2.8.4/bin/dart",
     "/usr/local/lib/dart-2.8.4/bin/snapshots/analysis_server.dart.snapshot",

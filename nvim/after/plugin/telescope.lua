@@ -12,8 +12,8 @@ require('telescope').setup {
 pcall(require('telescope').load_extension, 'fzf')
 
 -- Load extension.
-require"telescope".load_extension("frecency")
-
+--require"telescope".load_extension("frecency")
+--
 
 local builtin = require('telescope.builtin')
 local extensions = require('telescope').extensions
@@ -36,6 +36,8 @@ vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch curren
 vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
 
 vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = '[S]earch [F]iles' })
+
+vim.keymap.set('n', '<leader>a', builtin.quickfix, { desc = 'show quick[a]ction' })
 
 
 vim.keymap.set('n', '<C-p>', builtin.git_files, {})

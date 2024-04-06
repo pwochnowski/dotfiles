@@ -23,8 +23,6 @@ vim.opt.wrap = true
 -- Break at word if text goas over end of line
 vim.opt.lbr = true
 
-vim.opt.autowriteall = true
-
 vim.opt.termguicolors = true
 
 vim.opt.hlsearch = false
