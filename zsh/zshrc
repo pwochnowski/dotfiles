@@ -81,14 +81,15 @@ if [ -f ~/.alert ]; then echo '>>> Check ~/.alert'; fi
 
 SETUP_DIR="$HOME/repos/setup/dotfiles/zsh"
 
-autoload -Uz compinit colors
+autoload -Uz colors 
 colors
 
-# autocompletion
+fpath=("$FPATH_DIR/zsh-completions/src" "${fpath[@]}")
+autoload -Uz compinit
 compinit
 
 FPATH_DIR="$SETUP_DIR/func"
-fpath=($FPATH_DIR "${fpath[@]}")
+fpath=("$FPATH_DIR/zsh-completions/src" "${fpath[@]}")
 autoload shutdown
 
 # Completion.
