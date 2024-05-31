@@ -21,9 +21,14 @@ fi
 
 alias grep='rg --color=auto'
 
-alias ls='ls --color=auto --human-readable --group-directories-first --classify'
-alias ll='ls --color=auto --human-readable --group-directories-first --classify -l'
-alias lla='ls --color=auto --human-readable --group-directories-first --classify -la'
+# alias ls='ls --color=auto -h --group-directories-first --classify'
+alias ls='ls --color=auto -h -F'
+# alias ll='ls --color=auto -h --group-directories-first --classify -l'
+alias ll='ls --color=auto -h -F -l'
+# alias lla='ls --color=auto -h --group-directories-first --classify -la'
+alias lla='ls --color=auto -h -F -la'
+
+
 
 # Git
 alias grh='git reset'
