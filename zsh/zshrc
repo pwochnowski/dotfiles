@@ -1,7 +1,9 @@
 export EDITOR="/usr/bin/vim"
-export HOME="/home/paulw"
 
-HISTFILE=~/.histfile
+# move this to .zprofile?
+export HOME="/Users/paulw"
+
+HISTFILE="$HOME/.histfile"
 HISTSIZE=1000000
 SAVEHIST=1000000
 
@@ -25,11 +27,11 @@ setopt NO_HIST_BEEP
 setopt NO_BEEP
 
 
-if [[ -r ~/.aliasrc ]]; then 
-	source ~/.aliasrc
+if [[ -r "$HOME/.aliasrc" ]]; then 
+	source "$HOME/.aliasrc"
 fi
 
-path+=('/home/paulw/.cargo/bin' '/home/paulw/.screenlayout' '/home/paulw/.local/bin')
+path+=("$HOME/.cargo/bin" "$HOME/.local/bin")
 export PATH
 
 # Not all servers have terminfo for rxvt-256color. :<
@@ -65,68 +67,29 @@ autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
 
-confirm() {
-    local answer
-    echo -ne "zsh: sure you want to run '${YELLOW}$*${NC}' [yN]? "
-    read -q answer
-        echo
-    if [[ "${answer}" =~ ^[Yy]$ ]]; then
-        command "${@}"
-    else
-        return 1
-    fi
-}
-
-confirm_wrapper() {
-    if [ "$1" = '--root' ]; then
-        local as_root='true'
-        shift
-    fi
-
-    local prefix=''
-
-    if [ "${as_root}" = 'true' ] && [ "${USER}" != 'root' ]; then
-        prefix="sudo"
-    fi
-    confirm ${prefix} "$@"
-}
-
-poweroff() { confirm_wrapper --root $0 "$@"; }
-reboot() { confirm_wrapper --root $0 "$@"; }
-hibernate() { confirm_wrapper --root $0 "$@"; }
-
-startx() {
-    exec =startx
-}
-
-
-
 # Ignore lines prefixed with '#'.
 setopt interactivecomments
 
 
 # Nobody need flow control anymore. Troublesome feature.
+# 3.15: Why can't I bind \C-s and \C-q any more?
+# The control-s and control-q keys now do flow control by default, unless you have turned this off with stty -ixon or redefined the keys which control it with stty start or stty stop. (This is done by the system, not zsh; the shell simply respects these settings.) In other words, \C-s stops all output to the terminal, while \C-q resumes it.  To stop zsh from allowing flow control and hence restoring the use of the keys: put setopt noflowcontrol in your .zshrc file.
 #stty -ixon
 setopt noflowcontrol
 
 if [ -f ~/.alert ]; then echo '>>> Check ~/.alert'; fi
 
-source ~/.fzy.zshrc
-# Replaced with _history_search_with_fzy
-# bindkey "^R" history-incremental-pattern-search-backward 
-# bindkey "^S" history-incremental-pattern-search-forward
-#
+SETUP_DIR="$HOME/repos/setup/dotfiles/zsh"
 
-SETUP_DIR="/home/paulw/setup/zsh"
-
-FPATH_DIR="$SETUP_DIR/func"
-fpath=($FPATH_DIR "${fpath[@]}")
 autoload -Uz compinit colors
 colors
 
 # autocompletion
 compinit
 
+FPATH_DIR="$SETUP_DIR/func"
+fpath=($FPATH_DIR "${fpath[@]}")
+autoload shutdown
 
 # Completion.
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -138,32 +101,19 @@ zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
 
 PLUGIN_DIR="$SETUP_DIR/plugins"
 
-source $PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $PLUGIN_DIR/liquidprompt/liquidprompt.plugin.zsh
 
+source $PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $PLUGIN_DIR/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey "^[[B" history-substring-search-down
 bindkey "^[[A" history-substring-search-up
 
-source $PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $PLUGIN_DIR/git/git.plugin.zsh
-source $PLUGIN_DIR/git-extras/git-extras.plugin.zsh
-source $PLUGIN_DIR/command-not-found/command-not-found.plugin.zsh
 source $PLUGIN_DIR/zsh-you-should-use/you-should-use.plugin.zsh
-source $PLUGIN_DIR/liquidprompt/liquidprompt.plugin.zsh
 source $PLUGIN_DIR/z/z.sh
+source $PLUGIN_DIR/oh-my-zsh/plugins/command-not-found/command-not-found.plugin.zsh
+source $PLUGIN_DIR/oh-my-zsh/plugins/common-aliases/common-aliases.plugin.zsh
+source $PLUGIN_DIR/oh-my-zsh/plugins/git/git.plugin.zsh
+source $PLUGIN_DIR/oh-my-zsh/plugins/git-extras/git-extras.plugin.zsh
 
-source $PLUGIN_DIR/common-aliases/common-aliases.plugin.zsh
-
-# make webstorm work
-export _JAVA_AWT_WM_NONREPARENTING=1
-
-export PERL5LIB=/home/paulw/perl5/lib/perl5/
-
-source /home/paulw/.aliasrc
-
-source ~/.workrc
-
-# add Pulumi to the PATH
-export PATH=$PATH:$HOME/.pulumi/bin
-
-source $FPATH_DIR/pulumi.comp
+source "$HOME/.aliasrc"
