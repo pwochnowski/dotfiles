@@ -1,4 +1,4 @@
-export EDITOR="/usr/bin/vim"
+export EDITOR="/opt/homebrew/bin/nvim"
 
 # move this to .zprofile?
 export HOME="/Users/paulw"
@@ -118,3 +118,10 @@ source $PLUGIN_DIR/oh-my-zsh/plugins/git/git.plugin.zsh
 source $PLUGIN_DIR/oh-my-zsh/plugins/git-extras/git-extras.plugin.zsh
 
 source "$HOME/.aliasrc"
+source "$HOME/.workrc"
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+alias deploy_tool=/Users/paulw/polez/tools/deploy/deploy_tool/main.py

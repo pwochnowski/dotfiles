@@ -1,6 +1,4 @@
 
-
-
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 -- LSP settings.
@@ -32,7 +30,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
   -- See `:help K` for why this keymap
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+  nmap('I', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
@@ -48,11 +46,11 @@ end
 
 
 local servers = {
-   clangd = {
-    cmd = { "clangd", "--enable-config"},
-   },
+   --clangd = {
+   -- cmd = { "clangd", "--enable-config"},
+   --},
   -- gopls = {},
-  -- pyright = {},
+  pyright = {},
   rust_analyzer = {},
   tsserver = {},
   --
@@ -95,11 +93,14 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
+require'lspconfig'.cmake.setup{}
+
+
 require('lspconfig').dartls.setup{
   capabilities = capabilities,
   cmd = {
-    "/usr/local/lib/dart-2.8.4/bin/dart",
-    "/usr/local/lib/dart-2.8.4/bin/snapshots/analysis_server.dart.snapshot",
+    "/usr/local/dart-2.19.6/bin/dart",
+    "/usr/local/dart-2.19.6/bin/snapshots/analysis_server.dart.snapshot",
     "--lsp"
   },
   on_attach = on_attach,

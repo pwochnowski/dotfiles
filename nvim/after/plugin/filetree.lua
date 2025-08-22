@@ -14,6 +14,10 @@ require("nvim-tree").setup({
   view = {
     relativenumber = true,
   },
+  update_focused_file = {
+    enable = true,
+    update_root = true,
+  },
   renderer = {
     highlight_opened_files = "icon",
     highlight_modified = "name",

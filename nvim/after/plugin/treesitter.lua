@@ -25,8 +25,8 @@ require'nvim-treesitter.configs'.setup {
 
   modules = {},
 }
-
-require 'nvim-treesitter.install'.compilers = { 'clang' }
+--
+require 'nvim-treesitter.install'.compilers = { '/opt/homebrew/Cellar/gcc/14.1.0/bin/gcc-14' }
 
 --local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 --parser_config.dartl = {

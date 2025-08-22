@@ -9,8 +9,6 @@ alias mv='mv -iv'
 alias rm='rm -iv'
 alias rmdir='rmdir -v'
 alias ln='ln -v'
-alias chmod="chmod -c"
-alias chown="chown -c"
 alias mkdir="mkdir -v"
 
 if command -v colordiff > /dev/null 2>&1; then
@@ -35,3 +33,4 @@ alias grh='git reset'
 alias grhh='git reset --hard'
 alias gshs='git show --stat'
 alias grbo='git rebase --interactive origin/master'
+alias grbm='git rebase --interactive $(git merge-base origin/master HEAD)'

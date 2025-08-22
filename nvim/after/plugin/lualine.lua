@@ -1,5 +1,16 @@
-require('lualine').setup {
-  options = {
+local trouble = require("trouble")
+local symbols = trouble.statusline({
+  mode = "lsp_document_symbols",
+  groups = {},
+  title = false,
+  filter = { range = true },
+  format = "{kind_icon}{symbol.name:Normal}",
+  -- The following line is needed to fix the background color
+  -- Set it to the lualine section you want to use
+  hl_group = "lualine_x_normal",
+})
+
+local opts = {
     icons_enabled = true,
     theme = 'nord',
     component_separators = { left = '', right = ''},
@@ -16,7 +27,10 @@ require('lualine').setup {
       tabline = 1000,
       winbar = 1000,
     }
-  },
+}
+
+require('lualine').setup {
+  options = opts,
   sections = {
     lualine_a = {
       'mode',
@@ -45,7 +59,7 @@ require('lualine').setup {
          },
          symbols = {
            --error = '', warn = '',
-           info = '', hint = ''
+           --info = '', hint = ''
          },
          colored = true,           -- Displays diagnostics status in color if set to true.
          update_in_insert = false, -- Update diagnostics in insert mode.
@@ -53,7 +67,7 @@ require('lualine').setup {
        }
     },
     lualine_c = {'filename'},
-    lualine_x = {},
+    lualine_x = { symbols.get },
     lualine_y = {
       'branch',
       {
@@ -99,3 +113,4 @@ require('lualine').setup {
   inactive_winbar = {},
   extensions = {}
 }
+
