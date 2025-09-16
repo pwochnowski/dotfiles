@@ -79,7 +79,7 @@ setopt noflowcontrol
 
 if [ -f ~/.alert ]; then echo '>>> Check ~/.alert'; fi
 
-SETUP_DIR="$HOME/repos/setup/dotfiles/zsh"
+SETUP_DIR="$HOME/repos/dotfiles/zsh"
 
 autoload -Uz colors 
 colors
@@ -112,16 +112,10 @@ bindkey "^[[A" history-substring-search-up
 
 source $PLUGIN_DIR/zsh-you-should-use/you-should-use.plugin.zsh
 source $PLUGIN_DIR/z/z.sh
-source $PLUGIN_DIR/oh-my-zsh/plugins/command-not-found/command-not-found.plugin.zsh
-source $PLUGIN_DIR/oh-my-zsh/plugins/common-aliases/common-aliases.plugin.zsh
-source $PLUGIN_DIR/oh-my-zsh/plugins/git/git.plugin.zsh
-source $PLUGIN_DIR/oh-my-zsh/plugins/git-extras/git-extras.plugin.zsh
+source $PLUGIN_DIR/ohmyzsh/plugins/command-not-found/command-not-found.plugin.zsh
+source $PLUGIN_DIR/ohmyzsh/plugins/common-aliases/common-aliases.plugin.zsh
+source $PLUGIN_DIR/ohmyzsh/plugins/git/git.plugin.zsh
+source $PLUGIN_DIR/ohmyzsh/plugins/git-extras/git-extras.plugin.zsh
 
 source "$HOME/.aliasrc"
 source "$HOME/.workrc"
-
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-alias deploy_tool=/Users/paulw/polez/tools/deploy/deploy_tool/main.py

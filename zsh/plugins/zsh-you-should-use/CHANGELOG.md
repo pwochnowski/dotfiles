@@ -1,6 +1,29 @@
 Changelog for zsh-you-should-use
 ================================
 
+1.10.1
+------
+* Fix bug where hardcore mode would run even when not enabled (#148)
+
+1.10.0
+------
+* Add support for hardcore mode on specific aliases via `YSU_HARDCORE_ALIASES`
+* Improvements to zunit setup and teardown
+* thankyou to @mattarau for this release!
+
+1.9.0
+-----
+* massive performance improvement to `check_alias_usage` #139 (Thanks @AtifChy!)
+* remove dependency on `wc`
+
+1.8.0
+-----
+* Fix bug in `check_alias_usage` command which would spam `entry=` to stdout
+
+1.7.5
+-----
+* Minor optimization to the way global aliases are checked (#135)
+
 1.7.4
 -----
 * Fix test failures when key and value are not split correctly (#132)
