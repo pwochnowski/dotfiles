@@ -38,6 +38,7 @@ filetype plugin indent on " Attempt to determine the type of a file based on its
 syntax on                 " Enable syntax highlighting
 
 
+colorscheme torte
 set nocp
 " configure tags - add additional tags here or comment out not-used ones
 " Setting the directory...
