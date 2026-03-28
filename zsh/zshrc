@@ -31,8 +31,35 @@ if [[ -r "$HOME/.aliasrc" ]]; then
 	source "$HOME/.aliasrc"
 fi
 
-path+=("$HOME/.cargo/bin" "$HOME/.local/bin")
+# To avoid duplicates in your $PATH, you can utilize zsh's array features:
+# # typeset -aU path: This ensures that the path array (which mirrors the $PATH
+# # environment variable) only contains unique elements.
+# typeset -aU path
+#
+# Function to append the directory to the path array.
+export_to_path() {
+  local dir="$1"
+  if [[ -d "$dir" ]]; then
+    # Append the directory to the path array.
+    path=("$dir" $path)
+  fi
+}
+
+
+export_to_path "$HOME/.cargo/bin" 
+export_to_path  "$HOME/.local/bin"  
+export_to_path  "/opt/homebrew/opt/llvm/bin" # use llvm clang over mac installed version
+export_to_path  "/opt/homebrew/opt/gcc/bin" # use llvm clang over mac installed version
+export_to_path  "/opt/homebrew/opt/python/bin" # use brew python
 export PATH
+
+# Note this might leak into builds that expect custom libraries
+# Homebrew headers
+export CPATH="/opt/homebrew/include:$CPATH"
+# Homebrew libraries (compile + link time)
+export LIBRARY_PATH="/opt/homebrew/lib:$LIBRARY_PATH"
+# # Runtime search path (so executables find shared libs at run time)
+export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
 
 # Not all servers have terminfo for rxvt-256color. :<
 if [ "${TERM}" = 'rxvt-256color' ] && ! [ -f '/usr/share/terminfo/r/rxvt-256color' ] && ! [ -f '/lib/terminfo/r/rxvt-256color' ] && ! [ -f "${HOME}/.terminfo/r/rxvt-256color" ]; then
@@ -41,9 +68,9 @@ fi
 
 # alias -g latest='*(om[1])'
 
-export TMP="$HOME/tmp"
-export TEMP="$TMP"
-export TMPDIR="$TMP"
+# export TMP="$HOME/tmp"
+#export TEMP="$TMP"
+# export TMPDIR="$TMP"
 
 
 # Fancy cd that can cd into parent directory, if trying to cd into file.
@@ -69,7 +96,6 @@ bindkey '^x^e' edit-command-line
 
 # Ignore lines prefixed with '#'.
 setopt interactivecomments
-
 
 # Nobody need flow control anymore. Troublesome feature.
 # 3.15: Why can't I bind \C-s and \C-q any more?
@@ -119,3 +145,14 @@ source $PLUGIN_DIR/ohmyzsh/plugins/git-extras/git-extras.plugin.zsh
 
 source "$HOME/.aliasrc"
 source "$HOME/.workrc"
+export PATH="/opt/homebrew/opt/mysql-client@8.0/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="${PATH}:/Users/paulw/repos/vitess/bin"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/paulw/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
