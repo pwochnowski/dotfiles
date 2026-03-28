@@ -34,3 +34,6 @@ alias grhh='git reset --hard'
 alias gshs='git show --stat'
 alias grbo='git rebase --interactive origin/master'
 alias grbm='git rebase --interactive $(git merge-base origin/master HEAD)'
+
+
+alias lg='lazygit'
