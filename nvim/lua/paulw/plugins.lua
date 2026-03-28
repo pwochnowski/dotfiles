@@ -1,6 +1,3 @@
-
--- Only required if you have packer configured as `opt`
-vim.cmd [[packadd packer.nvim]]
 --
 return require('packer').startup(function(use)
    -- Packer can manage itself
@@ -28,74 +25,87 @@ return require('packer').startup(function(use)
   }
 
 
-  use {
-    'nvim-telescope/telescope.nvim',
-    --tag = '0.1.x',
-    requires = {'nvim-lua/plenary.nvim'}
-  }
+ use {
+   'nvim-telescope/telescope.nvim',
+   --tag = '0.1.x',
+   requires = {'nvim-lua/plenary.nvim'}
+ }
 
-  -- Detect tabstop and shiftwidth automatically
-  use {
-    "tpope/vim-sleuth"
-  }
+ -- Detect tabstop and shiftwidth automatically
+ use {
+   "tpope/vim-sleuth"
+ }
 
-  -- vim session manager
-  --use {
-  --  'jedrzejboczar/possession.nvim',
-  --  requires = { 'nvim-lua/plenary.nvim' },
-  --}
+ -- vim session manager
+ --use {
+ --  'jedrzejboczar/possession.nvim',
+ --  requires = { 'nvim-lua/plenary.nvim' },
+ --}
 
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use {
     "nvim-telescope/telescope-frecency.nvim",
     requires = {"kkharji/sqlite.lua"}
   }
 
-  use 'folke/tokyonight.nvim'
+ use 'folke/tokyonight.nvim'
+--
+ use({
+   'rose-pine/neovim',
+   as = 'rose-pine'
+ })
 
-  use({
-    'rose-pine/neovim',
-    as = 'rose-pine'
-  })
+ use({
+   'nvim-mini/mini.nvim'
+ })
+--
+--  use {
+--    'nvim-treesitter/nvim-treesitter',
+--    run = ':TSUpdate'
+--  }
+--  --
+--  --use { -- Additional text objects via treesitter
+--  --  'nvim-treesitter/nvim-treesitter-textobjects',
+--  --  'nvim-treesitter/nvim-treesitter-context',
+--  --  'nvim-treesitter/playground',
+--  --  after = 'nvim-treesitter',
+--  --}
+--  --
+ use { 
+   'nvim-tree/nvim-tree.lua',
+   use 'nvim-tree/nvim-web-devicons'
+ }
+--  --
+--  ---- better vim marks
+--  -- use('theprimeagen/harpoon')
+ use {
+   'numToStr/Comment.nvim',
+   config = function()
+     require('Comment').setup()
+   end
+ }
+--
+--  use('ziontee113/neo-minimap')
+--
+--  use('tpope/vim-fugitive')
+--
+ use('eandrju/cellular-automaton.nvim')
+--  --
+ use {
+   'nvim-lualine/lualine.nvim',
+   requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+ }
+--
+--  --use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
+--
+ use { 'gelguy/wilder.nvim' }
 
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
-  }
-  --
-  --use { -- Additional text objects via treesitter
-  --  'nvim-treesitter/nvim-treesitter-textobjects',
-  --  'nvim-treesitter/nvim-treesitter-context',
-  --  'nvim-treesitter/playground',
-  --  after = 'nvim-treesitter',
-  --}
-  --
-  use { 'nvim-tree/nvim-tree.lua'}
-  --
-  ---- better vim marks
-  -- use('theprimeagen/harpoon')
-  use {
-    'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup()
-    end
-  }
+ use { 'folke/trouble.nvim',  requires = 'nvim-tree/nvim-web-devicons' }
+ 
+ use { 'craftzdog/solarized-osaka.nvim' }
+ 
+ use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
 
-  use('ziontee113/neo-minimap')
-
-  use('tpope/vim-fugitive')
-
-  use('eandrju/cellular-automaton.nvim')
-  --
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'nvim-tree/nvim-web-devicons', opt = true }
-  }
-
-  --use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
-
-  use { 'gelguy/wilder.nvim' }
-
-  use { 'folke/trouble.nvim',  requires = 'nvim-tree/nvim-web-devicons' }
+ --use { 'nvim-mini/mini.nvim' }
+ use {'nyoom-engineering/oxocarbon.nvim'}
 
 end)

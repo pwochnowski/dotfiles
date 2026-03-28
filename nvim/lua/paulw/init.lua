@@ -1,3 +1,5 @@
 require("paulw.remap")
 require("paulw.set")
-print("paulw/init.lua")
+require("paulw.plugins")
+
+print("Run paulw/init.lua")
