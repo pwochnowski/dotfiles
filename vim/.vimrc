@@ -10,10 +10,6 @@ Plugin 'VundleVim/Vundle.vim'
 
 " Plugin 'junegunn/fzf'
 
-Plugin 'Valloric/YouCompleteMe'
-
-Plugin 'grailbio/bazel-compilation-database'
-
 "vimgrep improvement
 Plugin 'rking/ag.vim'
 
@@ -33,7 +29,6 @@ Plugin 'asvetliakov/vim-easymotion'
 "Timeout for hjkl keys
 Bundle 'takac/vim-hardtime'
 
-
 "Plugin 'felixhummel/setcolors.vim'
 
 " All of your Plugins must be added before the following line
@@ -42,14 +37,6 @@ call vundle#end()         " required
 filetype plugin indent on " Attempt to determine the type of a file based on its name
 syntax on                 " Enable syntax highlighting
 
-
-let g:ycm_language_server = [
-  \   {
-  \    'name': 'dart',
-  \    'cmdline': [ 'dart', '/usr/local/lib/dart-1.24/bin/snapshots/analysis_server.dart.snapshot', '--lsp' ],
-  \    'filetypes': [ 'dart' ],
-  \   }
-  \ ] 
 
 set nocp
 " configure tags - add additional tags here or comment out not-used ones
@@ -83,7 +70,13 @@ set foldnestmax=2
 setlocal nofoldenable
 
 set swapfile
-set dir=~/.vimbackup
+if isdirectory($HOME . '/.vim/swap') == 0
+    :silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
+endif
+set directory=./.vim-swap//
+set directory+=~/.vim/swap//
+set directory+=~/tmp//
+set directory+=.
 
 set wildmenu
 set wildignore=*.o,*.obj,*.bak,*.exe,*.py[co],*.sw*,*~,*.pyc,.svn
@@ -108,7 +101,18 @@ set shiftwidth=2
 set tabstop=2
 
 set undofile
-set undodir=~/.vimbackup/,/tmp//
+if exists("+undofile")
+    " undofile - This allows you to use undos after exiting and restarting
+    " This, like swap and backup files, uses .vim-undo first, then ~/.vim/undo
+    " :help undo-persistence
+    " This is only present in 7.3+
+    if isdirectory($HOME . '/.vim/undo') == 0
+      :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
+    endif
+    set undodir=./.vim-undo//
+    set undodir+=~/.vim/undo//
+    set undofile
+endif
 
 "Show cursor position in status bar
 " set ruler
