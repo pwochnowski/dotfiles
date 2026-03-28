@@ -1,7 +1,13 @@
-export EDITOR="/opt/homebrew/bin/nvim"
+#/usr/bin/zsh
+export EDITOR="/usr/bin/vim"
+
+if [[ $(uname) == "Darwin" ]]; then
+  export HOME="/Users/paulw"
+else 
+  export HOME="/home/paul"
+fi
 
 # move this to .zprofile?
-export HOME="/Users/paulw"
 
 HISTFILE="$HOME/.histfile"
 HISTSIZE=1000000
@@ -48,30 +54,25 @@ export_to_path() {
 
 export_to_path "$HOME/.cargo/bin" 
 export_to_path  "$HOME/.local/bin"  
-export_to_path  "/opt/homebrew/opt/llvm/bin" # use llvm clang over mac installed version
-export_to_path  "/opt/homebrew/opt/gcc/bin" # use llvm clang over mac installed version
-export_to_path  "/opt/homebrew/opt/python/bin" # use brew python
+export_to_path  "$HOME/bin"  
+
+if [[ $(uname) == "Darwin" ]]; then
+  # Note this might leak into builds that expect custom libraries
+  # Homebrew headers
+  export CPATH="/opt/homebrew/include:$CPATH"
+  # Homebrew libraries (compile + link time)
+  export LIBRARY_PATH="/opt/homebrew/lib:$LIBRARY_PATH"
+  # Runtime search path (so executables find shared libs at run time)
+  export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
+fi
+
 export PATH
 
-# Note this might leak into builds that expect custom libraries
-# Homebrew headers
-export CPATH="/opt/homebrew/include:$CPATH"
-# Homebrew libraries (compile + link time)
-export LIBRARY_PATH="/opt/homebrew/lib:$LIBRARY_PATH"
-# # Runtime search path (so executables find shared libs at run time)
-export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
 
 # Not all servers have terminfo for rxvt-256color. :<
 if [ "${TERM}" = 'rxvt-256color' ] && ! [ -f '/usr/share/terminfo/r/rxvt-256color' ] && ! [ -f '/lib/terminfo/r/rxvt-256color' ] && ! [ -f "${HOME}/.terminfo/r/rxvt-256color" ]; then
     export TERM='rxvt-unicode'
 fi
-
-# alias -g latest='*(om[1])'
-
-# export TMP="$HOME/tmp"
-#export TEMP="$TMP"
-# export TMPDIR="$TMP"
-
 
 # Fancy cd that can cd into parent directory, if trying to cd into file.
 # useful with ^F fuzzy searcher.
@@ -110,7 +111,6 @@ SETUP_DIR="$HOME/repos/dotfiles/zsh"
 autoload -Uz colors 
 colors
 
-fpath=("$FPATH_DIR/zsh-completions/src" "${fpath[@]}")
 autoload -Uz compinit
 compinit
 
@@ -138,19 +138,21 @@ bindkey "^[[A" history-substring-search-up
 
 source $PLUGIN_DIR/zsh-you-should-use/you-should-use.plugin.zsh
 source $PLUGIN_DIR/z/z.sh
-source $PLUGIN_DIR/ohmyzsh/plugins/command-not-found/command-not-found.plugin.zsh
-source $PLUGIN_DIR/ohmyzsh/plugins/common-aliases/common-aliases.plugin.zsh
-source $PLUGIN_DIR/ohmyzsh/plugins/git/git.plugin.zsh
-source $PLUGIN_DIR/ohmyzsh/plugins/git-extras/git-extras.plugin.zsh
+source $SETUP_DIR/ohmyzsh/plugins/command-not-found/command-not-found.plugin.zsh
+source $SETUP_DIR/ohmyzsh/plugins/common-aliases/common-aliases.plugin.zsh
+source $SETUP_DIR/ohmyzsh/plugins/git/git.plugin.zsh
+source $SETUP_DIR/ohmyzsh/plugins/git-extras/git-extras.plugin.zsh
 
 source "$HOME/.aliasrc"
 source "$HOME/.workrc"
-export PATH="/opt/homebrew/opt/mysql-client@8.0/bin:$PATH"
+
+# export PATH="/opt/homebrew/opt/mysql-client@8.0/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH="${PATH}:/Users/paulw/repos/vitess/bin"
+# export PATH="${PATH}:/Users/paulw/repos/vitess/bin"
+
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/paulw/.docker/completions $fpath)
 autoload -Uz compinit
