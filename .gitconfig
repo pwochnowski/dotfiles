@@ -1,0 +1,12 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+  name = paulw
+  email = wochnowskip@gmail.com
+[pull]
+	rebase = true
+[rebase]
+	autoStash = true
+	autosquash = true
+[push]
+	useForceIfIncludes = true
