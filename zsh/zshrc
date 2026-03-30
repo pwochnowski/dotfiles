@@ -17,6 +17,7 @@ SAVEHIST=1000000
 # (switch to Emacs mode)
 bindkey -e
 
+setopt appendhistory
 setopt HIST_VERIFY
 #setopt SHARE_HISTORY
 
@@ -129,12 +130,14 @@ zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
 PLUGIN_DIR="$SETUP_DIR/plugins"
 
 source $PLUGIN_DIR/liquidprompt/liquidprompt.plugin.zsh
-
 source $PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $PLUGIN_DIR/zsh-history-substring-search/zsh-history-substring-search.zsh
+
 bindkey "^[[B" history-substring-search-down
 bindkey "^[[A" history-substring-search-up
+bindkey "^[OB" history-substring-search-down
+bindkey "^[OA" history-substring-search-up
 
 source $PLUGIN_DIR/zsh-you-should-use/you-should-use.plugin.zsh
 source $PLUGIN_DIR/z/z.sh
